@@ -10,7 +10,8 @@ import nltk
 import typing
 import re
 from difflib import SequenceMatcher
-from evaluate import load as evaluate_load
+import evaluate as _hf_evaluate
+evaluate_load = _hf_evaluate.load
 from .bleu.bleu import Bleu
 import logging
 import os
@@ -208,7 +209,7 @@ def extract_first_func(code: str):
         lines.pop(0)
     if len(lines) == 0:
         return code
-    indent = len(re.search("^\s*", lines[0]).group(0))
+    indent = len(re.search(r"^\s*", lines[0]).group(0))
     func = "\n".join(lines)
     func = re.split(r"\n {0,%d}[^\s#]" % indent, func, flags=re.M|re.S)[0]
     return func

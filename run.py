@@ -27,8 +27,8 @@ from peft import get_peft_model, LoraConfig, TaskType
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _SCRIPT_DIR)
 
-from evaluate.edapi_evaluate import compute_edit_quality
-from evaluate.evaluate_utils import MATCH_METRICS
+from eval_metrics.edapi_evaluate import compute_edit_quality
+from eval_metrics.evaluate_utils import MATCH_METRICS
 
 LOG = logging.getLogger(__name__)
 
