@@ -1,15 +1,19 @@
-# SharedLoRA config for deepseek-coder-1.3b-base
+# Module-Routed Shared LoRA config for deepseek-coder-1.3b-base
+# ---------------------------------------------------------------
+# Approach: shared LoRA on all candidate modules within 8 editable layers,
+#           but per-API routing via binary mask (only top-k modules active).
+
 model_name: deepseek-ai/deepseek-coder-1.3b-base
 device: 0
 
 # Layer selection
 num_editable_layers: 8
 
-# LoRA config
+# LoRA config — expanded target_modules for module-level routing
 rank: 4
 lora_alpha: 16
 lora_dropout: 0.1
-target_modules: ["q_proj", "v_proj"]
+target_modules: ["q_proj", "v_proj", "o_proj", "down_proj"]
 
 # Training
 lr: 0.0002
@@ -17,6 +21,10 @@ weight_decay: 0.01
 num_epochs: 5
 batch_size: 2
 patience: 3
+
+# Routing regularization
+# L2 penalty on active adapter weights to prevent over-editing
+lambda_reg: 0.0001
 
 # Evaluation
 max_gen_length: 50
